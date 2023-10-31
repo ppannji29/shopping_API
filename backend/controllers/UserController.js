@@ -8,7 +8,7 @@ import DbContext from "../config/Database.js";
 export const getUsers = async (req, res) => {
     try {
         const users = await Users.findAll({
-            attributes: ['id', 'name', 'email']
+            attributes: ['id', 'fullname', 'email']
         });
         res.json(users);
     } catch (error) {
