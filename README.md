@@ -35,3 +35,21 @@ This system already implemented some performance to help traffic request & the o
 You can visit on file /backend/request.rest
 Remember to access every each API you need token. the token is self already inside for every each API Collection. But for JWT you need to hit GET http://localhost:5000/api/token to get refreshToken or valid token
 
+### Sequence of workflow from API visibility
+- POST http://localhost:5000/api/user/registration (registration first step)
+- PUT http://localhost:5000/api/userprofile/:userId (completed registration to enable isRegistered)
+- POST http://localhost:5000/api/login (API for login)
+- GET http://localhost:5000/api/token (API for refreshToken user)
+- DELETE http://localhost:5000/api/logout (API for Logout & remove user token cookies)
+- POST http://localhost:5000/api/order (API for add order list)
+- GET http://localhost:5000/api/order (API for get active order list)
+- POST http://localhost:5000/api/checkout (API for checkout order list & sent transaction)
+
+### Current table 
+- user
+- userprofile
+- order
+- product
+- shop
+- warehouse
+- transaction
