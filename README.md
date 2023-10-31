@@ -31,3 +31,7 @@ This system already implemented some performance to help traffic request & the o
 - Multi thread worker/cluster system (purpose to help system to handling request in large scale)
 - Set timeout for API
 
+### API Collection
+You can visit on file /backend/request.rest
+Remember to access every each API you need token. the token is self already inside for every each API Collection. But for JWT you need to hit GET http://localhost:5000/api/token to get refreshToken or valid token
+
