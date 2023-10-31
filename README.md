@@ -2,8 +2,8 @@
 
 ### Set Up Migration & Start engine server
 - Go to package.json you need to change the type to common.js because this code using ES6, so you need to change like this Example :
-  // change your package.json like this if you want to run migration
-  {
+- change your package.json like this if you want to run migration
+- {
     "name": "backend",
     "version": "1.0.0",
     "description": "",
@@ -11,8 +11,8 @@
     "type": "commonjs", 
     "types": "module", 
 
-  // after you done in your migration you need to change the package.json to start server in your local. EX:
-  {
+- after you done in your migration you need to change the package.json to start server in your local. EX:
+- {
     "name": "backend",
     "version": "1.0.0",
     "description": "",
