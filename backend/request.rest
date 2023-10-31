@@ -1,0 +1,70 @@
+###
+POST http://localhost:5000/api/user/registration
+Content-Type: application/json
+Authorization: Bearer YjRjNTBkNzEtYzUwMy00MzcyLWE1YzEtZmE2YjI0YzNmNTE3OmRlY2QwMGM1LWY0YmQtNDNiYy1hOThkLTQzMjY5ZTg1NGYyOA== 
+
+{
+    "fullname": "testingdev",
+    "email": "testingdev29@gmail.com",
+    "password": "2929Panji",
+    "confpassword": "2929Panji",
+    "phoneNumber": "081295593352"
+}
+
+###
+PUT http://localhost:5000/api/userprofile/4
+Content-Type: application/json
+Authorization: Bearer YjRjNTBkNzEtYzUwMy00MzcyLWE1YzEtZmE2YjI0YzNmNTE3OmRlY2QwMGM1LWY0YmQtNDNiYy1hOThkLTQzMjY5ZTg1NGYyOA== 
+
+{
+    "address": "testing dev 1234567",
+    "domicile": "Jakarta",
+    "identityNumber": "31571200082",
+    "job": "Data Engineer",
+    "phoneNumber": "081295593352",
+    "dateOfBirth": "1999-06-29"
+}
+
+###
+POST http://localhost:5000/api/login
+Content-Type: application/json
+Authorization: Bearer YjRjNTBkNzEtYzUwMy00MzcyLWE1YzEtZmE2YjI0YzNmNTE3OmRlY2QwMGM1LWY0YmQtNDNiYy1hOThkLTQzMjY5ZTg1NGYyOA== 
+
+{
+    "email": "081295593352",
+    "password": "2929Panji"
+}
+
+###
+GET http://localhost:5000/api/token
+
+
+### 
+DELETE http://localhost:5000/api/logout
+
+###
+POST http://localhost:5000/api/order
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImZ1bGxuYW1lIjoidGVzdGluZ2RldiIsImVtYWlsIjoidGVzdGluZ2RldjI5QGdtYWlsLmNvbSIsImlhdCI6MTY5ODc2MDI2MywiZXhwIjoxNjk4NzYwMjc4fQ.mEmyBowxfkbvkqjBhprFtuIgDXdhDdeeLA5sNVltkqU
+
+{
+    "productId": 1,
+    "quantity": 2,
+    "warehouseId": 1
+}
+
+###
+GET http://localhost:5000/api/order
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImZ1bGxuYW1lIjoidGVzdGluZ2RldiIsImVtYWlsIjoidGVzdGluZ2RldjI5QGdtYWlsLmNvbSIsImlhdCI6MTY5ODc2MDM4MCwiZXhwIjoxNjk4NzYwNDAwfQ.unoJuMy6nXmFyU2xaIiaKvTZY01jCwxUDNL_IIhdGkM
+
+###
+POST http://localhost:5000/api/checkout
+Content-Type: application/json
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VySWQiOjQsImZ1bGxuYW1lIjoidGVzdGluZ2RldiIsImVtYWlsIjoidGVzdGluZ2RldjI5QGdtYWlsLmNvbSIsImlhdCI6MTY5ODc2MDM4MCwiZXhwIjoxNjk4NzYwNDAwfQ.unoJuMy6nXmFyU2xaIiaKvTZY01jCwxUDNL_IIhdGkM
+
+{
+    "amount": 100000000,
+    "paymentType": "VA",
+    "merchant": "BCA" 
+}
