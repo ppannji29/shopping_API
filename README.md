@@ -11,7 +11,7 @@
     "type": "commonjs", 
     "types": "module", 
 
-- after you done in your migration you need to change the package.json to start server in your local. EX:
+- do below this statement. after you done in your migration you need to change the package.json to start server in your local  
 - {
     "name": "backend",
     "version": "1.0.0",
