@@ -1,11 +1,163 @@
 import Orders from "../models/Orders.js";
 import Products from "../models/Products.js";
-import Warehouse from "../models/Warehouses.js";
+// import Warehouse from "../models/Warehouses.js";
 import Transactions from "../models/Transactions.js";
 import Users from "../models/Users.js";
 import jwt from "jsonwebtoken";
 import { Op, Sequelize } from "sequelize";
 import DbContext from "../config/Database.js";
+import Warehouses from "../models/Warehouses.js";
+
+export const UpdateOrder = async (req, res) => {
+    let transaction;
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (error, decoded) => {
+        if (error) {
+            return res.sendStatus(401);
+        } else {
+            try {
+                transaction = await DbContext.transaction();
+                const orderId = req.params.orderId;
+                const quantity = req.params.quantity;
+                const user = await Users.findOne({
+                    attributes: ['id', 'fullname', 'email'],
+                    where: {
+                        [Op.and]: [
+                            { id: decoded.userId },
+                            { email: decoded.email }
+                        ]
+                    }
+                });
+                if (!user) return res.status(404).send({ message: "User season expired! Please re login" });
+                // Logic for update Orders And Management Stock
+                const findOrder = await Orders.findOne({
+                    where: {
+                        [Op.and]: [
+                            { id: orderId },
+                            { userId: user.id }
+                        ]
+                    }
+                });
+                let oldQty = parseInt(findOrder.quantity);
+                const product = await Products.findOne({
+                    where: {
+                        id: findOrder.productId
+                    }
+                })
+                let updatePrice = parseInt(product.price) * parseInt(quantity);
+                let orderData = { quantity: quantity, price: updatePrice };
+                const updateOrder = await Orders.update(orderData, {
+                    where: {
+                        id: findOrder.id
+                    }
+                });
+                const findWarehouse = await Warehouses.findOne({
+                    where: {
+                        id: findOrder.warehouseId
+                    }
+                })
+                let updatedStock;
+                if (oldQty > quantity) {
+                    let tempQty = oldQty - quantity;
+                    updatedStock = findWarehouse.stock + tempQty;
+                } else {
+                    let tempQty = quantity - oldQty;
+                    updatedStock = findWarehouse.stock - tempQty;
+                }
+                const updateStockWarehouse = await Warehouses.update({ stock: updatedStock }, {
+                    where: {
+                        id: findWarehouse.id
+                    }
+                });
+                // End Of Logic for update Orders And Management Stock
+
+                await transaction.commit();
+                res.clearRequestTimeout();
+                res.status(200).send({
+                    status: 200,
+                    message: "Success delete orders",
+                    data: {
+                        updateOrder,
+                        updateStockWarehouse
+                    }
+                });
+            } catch (error) {
+                await transaction.rollback();
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+        }
+    });
+}
+
+export const DeleteOrder = async (req, res) => {
+    let transaction;
+    const authHeader = req.headers['authorization']
+    const token = authHeader && authHeader.split(' ')[1]
+    if (token == null) return res.sendStatus(401)
+    jwt.verify(token, process.env.ACCESS_TOKEN_SECRET, async (error, decoded) => {
+        if (error) {
+            return res.sendStatus(401);
+        } else {
+            try {
+                transaction = await DbContext.transaction();
+                const orderId = req.params.orderId;
+                const user = await Users.findOne({
+                    attributes: ['id', 'fullname', 'email'],
+                    where: {
+                        [Op.and]: [
+                            { id: decoded.userId },
+                            { email: decoded.email }
+                        ]
+                    }
+                });
+                if (!user) return res.status(404).send({ message: "User season expired! Please re login" });
+                const findOrder = await Orders.findOne({
+                    where: {
+                        [Op.and]: [
+                            { id: orderId },
+                            { userId: user.id }
+                        ]
+                    }
+                });
+                const deleteOrder = await Orders.destroy({
+                    where: {
+                        [Op.and]: [
+                            { id: orderId },
+                            { userId: user.id }
+                        ]
+                    }
+                }, { transaction });
+                const findWarehouse = await Warehouses.findOne({
+                    where: {
+                        id: findOrder.warehouseId
+                    }
+                });
+                let quantityWarehouse = parseInt(findOrder.quantity) + parseInt(findWarehouse.stock);
+                const warehouseUpdate = await Warehouses.update({ stock: quantityWarehouse }, {
+                    where: {
+                        id: findOrder.warehouseId
+                    }
+                });
+
+                await transaction.commit();
+                res.clearRequestTimeout();
+                res.status(200).send({
+                    status: 200,
+                    message: "Success delete orders",
+                    data: {
+                        deleteOrder,
+                        warehouseUpdate
+                    }
+                });
+            } catch (error) {
+                await transaction.rollback();
+                res.status(500).json({ error: 'Internal Server Error' });
+            }
+        }
+    });
+}
 
 export const CheckoutOrder = async (req, res) => {
     let transaction;
@@ -195,7 +347,7 @@ export const AddOrder = async (req, res) => {
                 if (!product) return res.status(404).send({ message: "Product Not Found! Please refresh app" });
 
                 let productPrice = parseInt(product.price) * parseInt(quantity);
-                const warehouse = await Warehouse.findOne({
+                const warehouse = await Warehouses.findOne({
                     where: {
                         [Op.and]: [
                             { id: warehouseId },
@@ -220,7 +372,7 @@ export const AddOrder = async (req, res) => {
                 };
                 const orderCreate = await Orders.create(createdOrderData);
                 let warehouseStock = parseInt(warehouse.stock) - parseInt(quantity);
-                const warehouseUpdate = await Warehouse.update({ stock: warehouseStock }, {
+                const warehouseUpdate = await Warehouses.update({ stock: warehouseStock }, {
                     where: {
                         id: warehouseId
                     }
