@@ -41,11 +41,13 @@ Remember to access every each API you need token. the token is self already insi
 - POST http://localhost:5000/api/login (API for login)
 - GET http://localhost:5000/api/token (API for refreshToken user)
 - DELETE http://localhost:5000/api/logout (API for Logout & remove user token cookies)
-- POST http://localhost:5000/api/order (API for add order list)
+- POST http://localhost:5000/api/order (API for add order list with management stock)
 - GET http://localhost:5000/api/order (API for get active order list)
 - POST http://localhost:5000/api/checkout (API for checkout order list & sent transaction)
+- DELETE http://localhost:5000/api/checkout/:orderId (API for delete order with management stock & quantity)
+- PUT http://localhost:5000/api/checkout/:orderId/:quantity (API for update order with price, management stock & quantity)
 
-### Current table 
+### Tables 
 - user
 - userprofile
 - order
