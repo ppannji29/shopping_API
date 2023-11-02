@@ -20,16 +20,18 @@
     "type": "module",
     "types": "commonjs",
 
-### Security
-This system using level security, below is the security for implemented this system :
+### Security API & DATA
+This system using level security & data security, below is the security for implemented this system :
 - Basic Auth
 - JWT
+- CORS
 - Transaction commit & rollback
 
 ### Performance 
 This system already implemented some performance to help traffic request & the order features :
 - Multi thread worker/cluster system (purpose to help system to handling request in large scale)
 - Set timeout for API
+- Indexes Fields
 
 ### API Collection
 You can visit on file /backend/request.rest
