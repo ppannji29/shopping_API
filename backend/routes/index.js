@@ -1,15 +1,15 @@
 import express from "express";
 import { RegistrationAccount, CompletedRegistrationAccount, Login, Logout } from "../controllers/UserController.js";
-import { verifyToken, verfiyTokenDefault } from "../middleware/verifyToken.js";
+import { verifyToken, verifyTokenDefault } from "../middleware/verifyToken.js";
 import { refreshToken } from "../controllers/RefreshToken.js";
 import { RequestTimeout } from "../middleware/setTimeOut.js";
 import { AddOrder, GetOrdersUser, CheckoutOrder, DeleteOrder, UpdateOrder } from "../controllers/OrderController.js";
 
 const router = express.Router();
 
-router.post('/api/user/registration', verfiyTokenDefault, RequestTimeout, RegistrationAccount);
-router.put('/api/userprofile/:userId', verfiyTokenDefault, RequestTimeout, CompletedRegistrationAccount);
-router.post('/api/login', verfiyTokenDefault, RequestTimeout, Login);
+router.post('/api/user/registration', verifyTokenDefault, RequestTimeout, RegistrationAccount);
+router.put('/api/userprofile/:userId', verifyTokenDefault, RequestTimeout, CompletedRegistrationAccount);
+router.post('/api/login', verifyTokenDefault, RequestTimeout, Login);
 router.get('/api/token', refreshToken);
 router.delete('/api/logout', Logout);
 

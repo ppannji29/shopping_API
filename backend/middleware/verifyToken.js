@@ -23,7 +23,7 @@ export const verifyTokenAdmin = (req, res, next) => {
     })
 }
 
-export const verfiyTokenDefault = (req, res, next) => {
+export const verifyTokenDefault = (req, res, next) => {
     // DEFAULT_TOKEN
     const authHeader = req.headers['authorization'];
     const token = authHeader && authHeader.split(' ')[1];

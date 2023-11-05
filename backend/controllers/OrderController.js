@@ -77,7 +77,7 @@ export const UpdateOrder = async (req, res) => {
                 res.clearRequestTimeout();
                 res.status(200).send({
                     status: 200,
-                    message: "Success delete orders",
+                    message: "Success update order",
                     data: {
                         updateOrder,
                         updateStockWarehouse
@@ -305,9 +305,7 @@ export const GetOrdersUser = async (req, res) => {
                 res.status(200).send({
                     status: 200,
                     message: "Success get orders",
-                    data: {
-                        dataResult
-                    }
+                    data: dataResult
                 });
             } catch (error) {
                 res.status(500).json({ error: 'Internal Server Error' });

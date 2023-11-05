@@ -24,7 +24,8 @@ if (cluster.isMaster) {
     });
 } else {
     try {
-        const allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080'];
+        // const allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080'];
+        const allowedOrigins = ['http://localhost:8080', 'http://127.0.0.1:8080', 'http://localhost:8000', 'http://localhost'];
         const corsOptions = {
             credentials: true,
             origin: allowedOrigins,

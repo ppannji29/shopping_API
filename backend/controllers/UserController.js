@@ -71,7 +71,7 @@ export const Login = async (req, res) => {
             maxAge: 24 * 60 * 60 * 1000
         });
         res.clearRequestTimeout();
-        res.json({ accessToken: accessToken });
+        res.status(200).send({ accessToken, refreshToken })
     } catch (error) {
         res.status(404).json({
             msg: "Email not found"
@@ -174,5 +174,5 @@ export const Logout = async (req, res) => {
         }
     });
     res.clearCookie('refreshToken');
-    return res.sendStatus(200);
+    return res.status(204).json({ message: "You have been logged out" })
 }
