@@ -57,3 +57,6 @@ Remember to access every each API you need token. the token is self already insi
 - shop
 - warehouse
 - transaction
+
+### Testing
+folder path => backend/unit-test/testing/user.test.ts
